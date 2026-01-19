@@ -442,13 +442,26 @@ function DashboardHome() {
                   </div>
                 </div>
                 <div className="flex-1 overflow-auto pr-2">
-                  <ul className="space-y-3">
-                    <li className="flex items-start gap-3">
-                      <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-blue-500" />
+                  <ul className='space-y-3'>
+                    <li className='flex gap-3 items-start'>
+                      <span className='mt-1 w-2 h-2 rounded-full bg-blue-500 shrink-0' />
                       <div>
-                        <div className="text-sm text-gray-800">
-                          Nội dung thông báo mẫu...
-                        </div>
+                        <div className='text-sm text-gray-800'>Nội dung thông báo hoặc chỉ đạo chỉ định sẽ được hiển thị ở đây một cách ngắn gọn và rõ ràng.</div>
+                        <div className='text-xs text-gray-400 mt-1'>01/11/2025 09:30</div>
+                      </div>
+                    </li>
+                    <li className='flex gap-3 items-start'>
+                      <span className='mt-1 w-2 h-2 rounded-full bg-amber-400 shrink-0' />
+                      <div>
+                        <div className='text-sm text-gray-800'>Khung này sẽ được mở rộng linh hoạt dựa trên nội dung được chèn vào, giúp người dùng dễ dàng nắm bắt thông tin quan trọng.</div>
+                        <div className='text-xs text-gray-400 mt-1'>31/10/2025 14:20</div>
+                      </div>
+                    </li>
+                    <li className='flex gap-3 items-start'>
+                      <span className='mt-1 w-2 h-2 rounded-full bg-green-400 shrink-0' />
+                      <div>
+                        <div className='text-sm text-gray-800'>Vui lòng kiểm tra thường xuyên để cập nhật những thông báo mới nhất từ hệ thống.</div>
+                        <div className='text-xs text-gray-400 mt-1'>30/10/2025 08:10</div>
                       </div>
                     </li>
                   </ul>
