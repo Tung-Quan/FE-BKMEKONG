@@ -1,0 +1,52 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "prod": "vite --mode production",
+    "build": "tsc -b && vite build",
+    "lint": "eslint src",
+    "prepare": "husky install",
+    "deploy:prod": "tsc -b && vite build --mode production && firebase deploy -P prod",
+    "deploy:dev": "tsc -b && vite build --mode development && firebase deploy -P dev",
+    "preview": "vite preview",
+    "check-types": "tsc --project tsconfig.json --pretty --noEmit",
+    "generate:query": "./scripts/generate.sh",
+    "codegen": "openapi-rq -i ./src/ielts.yaml -c axios -o ./src/generated --pageParam null --nextPageParam null",
+    "test": "echo \"No tests yet...\" && exit 0"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.90.19",
+    "@tanstack/react-router": "^1.151.6",
+    "@tanstack/router": "^0.0.1-beta.53",
+    "@tanstack/router-devtools": "^1.151.6",
+    "axios": "^1.13.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.12.0",
+    "vite-tsconfig-paths": "^6.0.4",
+    "vitest": "^4.0.17",
+    "zustand": "^5.0.10"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@tanstack/router-plugin": "^1.151.6",
+    "@types/node": "^25.0.9",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "autoprefixer": "^10.4.23",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "husky": "^8.0.3",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.19",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "vite": "^7.2.4"
+  }
+}

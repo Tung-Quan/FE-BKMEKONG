@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.pagination-btn {
+  @apply p-1 rounded transition-colors bg-white text-[#0329E9] hover:bg-blue-600 hover:text-white;
+}
+.pagination-btn-disabled {
+  @apply p-1 rounded bg-white text-gray-300 opacity-30 cursor-not-allowed;
+}
+.page-number {
+  @apply size-8 inline-flex items-center justify-center text-sm font-medium rounded-full transition-colors bg-white text-[#0329E9] hover:bg-blue-600 hover:text-white hover:shadow;
+}
+.page-number-active {
+  @apply size-8 inline-flex items-center justify-center text-sm font-medium rounded-full transition-colors bg-blue-600 text-white shadow-lg;
+}
+
+[class^='icon-'],
+[class*=' icon-'] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+body {
+  margin: 0;
+  font-family: 'Archivo', 'Baloo Chettan 2', BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #3d4863;
+
+  /* Hide scrollbar for IE, Edge, and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* hide scrollbar */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Use Baloo Chettan 2 for headings by default */
+span{
+  font-family: 'Baloo Chettan 2', 'Archivo', system-ui, -apple-system,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Utility class to force Baloo font where needed */
+.font-baloo {
+  font-family: 'Baloo Chettan 2', 'Archivo', system-ui, -apple-system,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
