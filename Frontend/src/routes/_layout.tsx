@@ -1,5 +1,11 @@
-import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
-import { useAppStore } from '../stores/useAppStore';
+import { useAppStore } from '@stores/useAppStore';
+import { Link, Outlet, createFileRoute } from '@tanstack/react-router';
+
+import Header from '@/components/header';
+import Subheader from '@/components/subHeader';
+import useLockBodyScroll from '@/hooks/use-lock-body-scroll';
+
+import PageFooter from './_layout/-components/pageFooter';
 
 export const Route = createFileRoute('/_layout')({
   component: LayoutComponent,
@@ -8,53 +14,58 @@ export const Route = createFileRoute('/_layout')({
 function LayoutComponent() {
   const isSidebarOpen = useAppStore((state) => state.isSidebarOpen);
   const toggleSidebar = useAppStore((state) => state.toggleSidebar);
-
+  useLockBodyScroll(isSidebarOpen);
   return (
-    <div className="flex h-screen w-full bg-gray-50 text-gray-900">
-      {/* Sidebar */}
-      <aside
-        className={`flex flex-col border-r bg-white transition-all duration-300 ${
-          isSidebarOpen ? 'w-64' : 'w-16'
-        }`}
-      >
-        <div className="flex h-16 items-center justify-center border-b font-bold text-indigo-600">
-          {isSidebarOpen ? 'MY APP' : 'MA'}
-        </div>
-        
-        <nav className="flex-1 space-y-2 p-2">
-          {/* Link Home */}
-          <Link
-            to="/"
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 [&.active]:bg-indigo-100 [&.active]:text-indigo-700"
-          >
-            <div className="h-6 w-6 rounded bg-gray-200"></div> {/* Icon giả lập */}
-            {isSidebarOpen && <span>Home</span>}
-          </Link>
-
-        </nav>
-      </aside>
-
-      {/* Main Content Area */}
-      <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Header */}
-        <header className="flex h-16 items-center justify-between border-b bg-white px-6 shadow-sm">
-          <button
+    <div className="flex min-h-screen flex-col">
+      <div className="flex w-full bg-gray-50 text-gray-900">
+        <>
+          {/* Overlay: fades in/out, non-interactive when hidden */}
+          <div
+            className={`fixed inset-0 z-[1000000] bg-black backdrop-blur-sm transition-opacity duration-300 ${isSidebarOpen ? 'pointer-events-auto opacity-40' : 'pointer-events-none opacity-0'}`}
             onClick={toggleSidebar}
-            className="rounded p-2 hover:bg-gray-100"
-          >
-            <span className="font-bold">☰</span> {/* Nút Menu */}
-          </button>
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-medium">User Admin</span>
-            <div className="h-8 w-8 rounded-full bg-indigo-500"></div>
-          </div>
-        </header>
+            aria-hidden="true"
+          />
 
-        {/* Nội dung trang con sẽ hiển thị ở đây */}
-        <main className="flex-1 overflow-auto p-6">
+          {/* Sidebar: slides in/out from left */}
+          <aside
+            className={`fixed left-0 top-0 z-[1000001] h-screen w-80 transform overflow-auto bg-white shadow-lg transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
+          >
+            <div className="flex items-center justify-between border-b p-4">
+              <h2 className="text-lg font-semibold">Menu</h2>
+              <button
+                onClick={toggleSidebar}
+                aria-label="Close sidebar"
+                className="px-2 py-1 text-xl"
+              >
+                ×
+              </button>
+            </div>
+
+            <nav className="p-4">
+              <ul className="space-y-3">
+                <li>
+                  <Link
+                    to="/"
+                    onClick={toggleSidebar}
+                    className="block text-sm"
+                  >
+                    Trang chủ
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </aside>
+        </>
+        {/* Main Content Area */}
+        <div className="min-h-screen w-full flex-none transition-colors duration-300">
+          {/* Header */}
+          <Header />
+          <Subheader />
+          {/* Nội dung trang con sẽ hiển thị ở đây */}
           <Outlet />
-        </main>
+        </div>
       </div>
+      <PageFooter />
     </div>
   );
 }

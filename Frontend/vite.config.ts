@@ -29,6 +29,8 @@ export default defineConfig({
       '@public': path.resolve(__dirname, 'public'),
       '@stores': path.resolve(__dirname, 'src/stores'),
       '@types': path.resolve(__dirname, 'src/types'),
+      '@assets': path.resolve(__dirname, 'src/assets'),
+      '@utils': path.resolve(__dirname, 'src/utils'),
     },
   },
   optimizeDeps: { exclude: ['fsevents'] },

@@ -28,7 +28,9 @@
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
       "@stores/*": ["src/stores/*"],
-      "@public/*": ["public/*"]
+      "@public/*": ["public/*"],
+      "@assets/*": ["src/assets/*"],
+      "@utils/*": ["src/utils/*"]
     },
     "types": ["vite/client"]
   },

@@ -19,6 +19,7 @@
       "@pages/*": ["src/pages/*"],
       "@public/*": ["src/*"],
       "@types/*": ["src/types/*"],
+      "@utils/*": ["src/utils/*"]
     }
   }
 }

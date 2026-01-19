@@ -62,15 +62,96 @@ code {
   display: none;
 }
 
-/* Use Baloo Chettan 2 for headings by default */
-span{
-  font-family: 'Baloo Chettan 2', 'Archivo', system-ui, -apple-system,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+@font-face {
+  font-family: 'SVN Arial';
+  src: local('SVN Arial'), url('./assets/fonts/SVN-Arial Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
-/* Utility class to force Baloo font where needed */
-.font-baloo {
-  font-family: 'Baloo Chettan 2', 'Archivo', system-ui, -apple-system,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+@font-face {
+  font-family: 'UTM Black';
+  src: local('UTM Black'), url('./assets/fonts/UTM-Black.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
+@font-face {
+  font-family: 'Gotham Medium';
+  src: local('Gotham Medium'), url('./assets/fonts/Gotham-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gotham Thin';
+  src: local('Gotham Thin'), url('./assets/fonts/Gotham-Thin.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gotham Ultra';
+  src: local('Gotham Ultra'), url('./assets/fonts/Gotham-Ultra.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* SVN Arial 2 family and variants (regular, bold, italic, bold italic) */
+@font-face {
+  font-family: 'SVN Arial 2';
+  src: local('SVN Arial 2'), url('./assets/fonts/SVN-Arial 2.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SVN Arial 2 Bold';
+  src: local('SVN Arial 2 Bold'), url('./assets/fonts/SVN-Arial 2 bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SVN Arial 2 Italic';
+  src: local('SVN Arial 2 Italic'), url('./assets/fonts/SVN-Arial 2 italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SVN Arial 2 Bold Italic';
+  src: local('SVN Arial 2 Bold Italic'), url('./assets/fonts/SVN-Arial 2 bold italic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root{
+  --font-sans: 'SVN Arial', 'SVN Arial 2', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  --font-display: 'UTM Black', 'Gotham Medium', 'Gotham Thin', 'Gotham Ultra', var(--font-sans);
+}
+
+/* Apply base font families and smoothing */
+html, body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utility classes for explicit font uses (optional but handy)
+   Usage: add `font-utm-black` to elements that must use UTM Black */
+.font-utm-black{ font-family: 'UTM Black', var(--font-sans); }
+.font-gotham-medium{ font-family: 'Gotham Medium', var(--font-sans); }
+.font-gotham-thin{ font-family: 'Gotham Thin', var(--font-sans); }
+.font-gotham-ultra{ font-family: 'Gotham Ultra', var(--font-sans); }
+.font-svn-2{ font-family: 'SVN Arial 2', var(--font-sans); }
+.font-svn{ font-family: 'SVN Arial', var(--font-sans); }
