@@ -42,6 +42,8 @@ jobs:
 
       - name: Install dependencies
         working-directory: Frontend
+        env:
+          HUSKY: 0
         run: yarn install --frozen-lockfile
 
       - name: Build
