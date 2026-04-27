@@ -21,9 +21,10 @@ jobs:
     env:
       VITE_BACKEND_URL: https://be-mekong.vercel.app/
       VITE_APP_API_URL: https://be-mekong.vercel.app/
+      VITE_BASE_PATH: /FE-BKMEKONG/
       VITE_DEFAULT_DATA_DATETIME: 2024-01-01T10:00:00
-      VITE_MAP_GEOJSON_URL: /data/tien_giang.geojson
-      VITE_MAP_CONTEXT_URL: /data/context.json
+      VITE_MAP_GEOJSON_URL: /FE-BKMEKONG/data/tien_giang.geojson
+      VITE_MAP_CONTEXT_URL: /FE-BKMEKONG/data/context.json
     steps:
       - name: Checkout
         uses: actions/checkout@v4
