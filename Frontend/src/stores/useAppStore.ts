@@ -22,12 +22,13 @@ export const useAppStore = create<AppState>((set) => ({
 
   // Định nghĩa các hàm actions
   increment: () => set((state) => ({ count: state.count + 1 })),
-  
+
   decrement: () => set((state) => ({ count: state.count - 1 })),
-  
+
   resetCount: () => set({ count: 0 }),
-  
-  toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
-  
+
+  toggleSidebar: () =>
+    set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
+
   setCount: (value) => set({ count: value }),
 }));

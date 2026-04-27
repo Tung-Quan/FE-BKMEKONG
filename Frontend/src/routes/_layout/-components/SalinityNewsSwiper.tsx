@@ -64,7 +64,7 @@ export default function SalinityNewsSwiper() {
               href={a.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white w-52 flex-none transform overflow-hidden rounded-xl shadow transition duration-200 hover:-translate-y-1 hover:shadow-lg"
+              className="w-52 flex-none transform overflow-hidden rounded-xl bg-white shadow transition duration-200 hover:-translate-y-1 hover:shadow-lg"
             >
               <div
                 className="h-28 w-full rounded-t-xl bg-cover bg-center"

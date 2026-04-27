@@ -8,11 +8,15 @@ import viteTsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   base: './',
-  plugins: [tanstackRouter({
-    target: 'react',
-    autoCodeSplitting: true,
-    routeFileIgnorePrefix: '-',
-  }), react(), viteTsconfigPaths()],
+  plugins: [
+    tanstackRouter({
+      target: 'react',
+      autoCodeSplitting: true,
+      routeFileIgnorePrefix: '-',
+    }),
+    react(),
+    viteTsconfigPaths(),
+  ],
   server: {
     port: 80,
     allowedHosts: [],
@@ -34,5 +38,4 @@ export default defineConfig({
     },
   },
   optimizeDeps: { exclude: ['fsevents'] },
-  
 });

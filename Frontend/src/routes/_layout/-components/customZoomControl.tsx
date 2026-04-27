@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { useMap } from 'react-leaflet';
+
 import zoomInPng from '@/assets/zoom_in.png';
 import zoomOutPng from '@/assets/zoom_out.png';
 
@@ -18,9 +19,8 @@ function CustomZoomControl() {
 
   return (
     // Đặt ở vị trí giữa dưới cùng của bản đồ
-    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000]">
+    <div className="absolute bottom-4 left-1/2 z-[1000] -translate-x-1/2">
       <div className="flex items-center overflow-hidden rounded-md bg-white shadow-md">
-        
         {/* Phần hiển thị phần trăm (100%) */}
         <div className="bg-blue-600 px-3 py-1.5 text-sm font-bold text-white">
           100%
@@ -33,18 +33,26 @@ function CustomZoomControl() {
             onClick={zoomIn}
             aria-label="Phóng to"
           >
-            <img src={zoomInPng} className="w-4 h-4 object-contain inline-block" alt="Phóng to" />
+            <img
+              src={zoomInPng}
+              className="inline-block h-4 w-4 object-contain"
+              alt="Phóng to"
+            />
           </button>
-          
+
           {/* Đường kẻ dọc */}
           <span className="text-gray-300">|</span>
-          
+
           <button
             className="px-2.5 py-1.5 text-lg font-semibold text-gray-700 hover:bg-gray-100 focus:outline-none"
             onClick={zoomOut}
             aria-label="Thu nhỏ"
           >
-            <img src={zoomOutPng} className="w-4 h-4 object-contain inline-block" alt="Thu nhỏ" />
+            <img
+              src={zoomOutPng}
+              className="inline-block h-4 w-4 object-contain"
+              alt="Thu nhỏ"
+            />
           </button>
         </div>
       </div>

@@ -1,7 +1,7 @@
+import settingPng from '@assets/setting.png';
 import tien_giang_icon from '@assets/tien_giang_icon.webp';
 import { useAppStore } from '@stores/useAppStore';
 import { Link } from '@tanstack/react-router';
-import settingPng from '@assets/setting.png';
 
 import UserBanner from './userBanner';
 
@@ -68,7 +68,7 @@ function Header() {
           {isHomePage && (
             <div className="indicator flex flex-col items-center">
               {/* CHANGED: Thêm 'hidden md:block' để ẩn text trên màn hình nhỏ */}
-              <div className="hover:bg-white hidden rounded-full p-2 text-[#069843] transition-colors md:block">
+              <div className="hidden rounded-full p-2 text-[#069843] transition-colors hover:bg-white md:block">
                 ĐƠN VỊ TÀI TRỢ VÀ HỢP TÁC
               </div>
 

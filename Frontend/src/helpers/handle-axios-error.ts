@@ -6,7 +6,7 @@ const defaultMessage = 'Something went wrong. Please try again.';
 
 const handleAxiosError = (
   error: unknown,
-  cb: (message: string, error?: unknown) => void,
+  cb: (message: string, error?: unknown) => void
 ) => {
   if (error instanceof AxiosError) {
     try {

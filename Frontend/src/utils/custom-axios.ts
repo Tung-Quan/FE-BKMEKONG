@@ -1,9 +1,10 @@
 import axios from 'axios';
 
+import { API_URL, BACKEND_URL } from '@/config/env';
 import storage from '@/helpers/storage';
 
 const instance = axios.create({
-  baseURL: 'http://locahost:3001', // port BE, will be changed later when BE is ready
+  baseURL: BACKEND_URL || API_URL,
   withCredentials: true,
 });
 
@@ -16,7 +17,7 @@ instance.interceptors.request.use(
   (error) => {
     console.error('Error in axios');
     Promise.reject(error);
-  },
+  }
 );
 
 export default instance;
