@@ -1,4 +1,5 @@
 import demo_userBanner from '@assets/demo_userBanner.png';
+
 type UserBannerProps = {
   userName?: string;
   unitInfo?: string;
@@ -6,17 +7,16 @@ type UserBannerProps = {
 };
 const UserBanner = ({ userName, unitInfo, avatarSrc }: UserBannerProps) => {
   return (
-    <div className="flex items-center bg-white border-2 border-[#0056b3] rounded-full p-1.5 pr-3 shadow-sm w-full max-w-sm mx-auto my-3 font-sans">
-      
+    <div className="mx-auto my-3 flex w-full max-w-sm items-center rounded-full border-2 border-[#0056b3] bg-white p-1.5 pr-3 font-sans shadow-sm">
       {/* Khối chứa thông tin văn bản */}
-      <div className="flex-grow text-[#0056b3] ml-2 mr-3"> 
+      <div className="ml-2 mr-3 flex-grow text-[#0056b3]">
         <h3 className="text-lg font-semibold uppercase leading-tight">
           {/* Tên người dùng */}
-          {userName || "NGUYỄN VĂN A"} 
+          {userName || 'NGUYỄN VĂN A'}
         </h3>
-        <p className="text-xs mt-0.5">
+        <p className="mt-0.5 text-xs">
           {/* Thông tin đơn vị/ID */}
-          {unitInfo || "Đơn vị B - 2453445"} 
+          {unitInfo || 'Đơn vị B - 2453445'}
         </p>
       </div>
 
@@ -24,7 +24,7 @@ const UserBanner = ({ userName, unitInfo, avatarSrc }: UserBannerProps) => {
         <img
           src={avatarSrc || demo_userBanner}
           alt="User Avatar"
-          className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
+          className="h-12 w-12 rounded-full border-2 border-white object-cover shadow-sm"
         />
       </div>
     </div>
