@@ -1,13 +1,13 @@
 export type recordType = {
-  id: string;
-  station_id: string;
-  station_name: string;
+  id?: string | number;
+  station_id?: string | number;
+  station_name?: string;
   datetime: string;
-  salinity: number | null;
-  water_level: number | null;
+  salinity?: number | string | null;
+  water_level?: number | string | null;
   // Dynamic properties added during processing
   location?: string;
-  position_id?: string;
+  position_id?: string | number;
   _ts?: number; // Timestamp in milliseconds
   time?: string; // Formatted time string (HH:MM)
 };
@@ -16,10 +16,12 @@ export type recordType = {
  * Position/Station data from API
  */
 export type PositionType = {
-  id: string;
+  id: string | number;
   name: string;
-  latitude?: number;
-  longitude?: number;
+  latitude?: number | string;
+  longitude?: number | string;
+  distanceKm?: number | string;
+  distance_km?: number | string;
   description?: string;
 };
 
@@ -40,12 +42,12 @@ export type LocationChartType = {
   values: number[];
   latestValue: number | null;
   highlightedIndex: number;
-  
+
   depthLabels: string[];
   depthValues: number[];
   latestDepth: number | null;
   highlightedIndexDepth: number;
-  
+
   distanceKm: number;
   measurementType: 'salinity' | 'depth';
 };

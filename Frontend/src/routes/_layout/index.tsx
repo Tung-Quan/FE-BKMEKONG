@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { createFileRoute } from '@tanstack/react-router';
+import { getDefaultTargetDate } from '@utils/backend-api';
 import {
   fetchDataForPosition,
   fetchPositions,
@@ -26,8 +27,7 @@ export const Route = createFileRoute('/_layout/')({
 });
 
 function DashboardHome() {
-  // Dùng ngày có dữ liệu thật trong database: 29/8/2020 10:00
-  const [currentTime] = useState(new Date('2020-08-29T10:00:00'));
+  const [currentTime] = useState(getDefaultTargetDate());
   const [selectedTime, setSelectedTime] = useState(currentTime);
 
   // State để lưu positions và dữ liệu thô
@@ -192,26 +192,8 @@ function DashboardHome() {
         };
       };
 
-      // Xác định loại chính (từ code của bạn)
-      let salCount = 0,
-        depthCount = 0;
-      recs.forEach((r) => {
-        if (getSal(r) !== null) salCount++;
-        if (getDepth(r) !== null) depthCount++;
-      });
-      const type = (
-        salCount >= Math.max(1, depthCount)
-          ? 'salinity'
-          : depthCount > 0
-            ? 'depth'
-            : 'salinity'
-      ) as LocationChartType['measurementType'];
-
-      // Xử lý dữ liệu cho loại chính (mặn hoặc mực nước)
-      const mainChart = processChartData(
-        recs,
-        type === 'salinity' ? getSal : getDepth
-      );
+      // Xử lý dữ liệu độ mặn để chọn top 4 điểm có độ mặn cao nhất.
+      const mainChart = processChartData(recs, getSal);
 
       // Xử lý dữ liệu cho mực nước (luôn luôn, cho biểu đồ thứ 2)
       const depthChart = processChartData(recs, getDepth);
@@ -228,13 +210,25 @@ function DashboardHome() {
         latestDepth: depthChart.latestValue,
         highlightedIndexDepth: depthChart.highlightedIndex,
 
-        distanceKm: 2.5, // Giữ nguyên
-        measurementType: type,
+        distanceKm: Number(
+          positions.find((p) => p.name === loc)?.distanceKm ??
+            positions.find((p) => p.name === loc)?.distance_km ??
+            0
+        ),
+        measurementType: 'salinity' as const,
       };
     });
 
     return results.filter((r) => r !== null); // Lọc bỏ các location không có data
   }, [allRawData, selectedTime, positions]); // <-- Tự động chạy lại khi 3 giá trị này thay đổi
+
+  const topSalinityCharts = useMemo(() => {
+    return locationCharts
+      .filter((chart) => chart.latestValue !== null)
+      .slice()
+      .sort((a, b) => Number(b.latestValue) - Number(a.latestValue))
+      .slice(0, 4);
+  }, [locationCharts]);
 
   return (
     <div className="mt-28 w-full px-4">
@@ -311,9 +305,9 @@ function DashboardHome() {
                       <p className="p-4 text-center text-gray-500">
                         Đang tải...
                       </p>
-                    ) : locationCharts && locationCharts.length > 0 ? (
+                    ) : topSalinityCharts && topSalinityCharts.length > 0 ? (
                       <div className="space-y-3">
-                        {locationCharts.map((c) => (
+                        {topSalinityCharts.map((c) => (
                           <SideLineChart
                             key={c.location}
                             pointName={c.location}
@@ -328,7 +322,7 @@ function DashboardHome() {
                       </div>
                     ) : (
                       <p className="p-4 text-center text-gray-500">
-                        Đang tải...
+                        Không có dữ liệu độ mặn.
                       </p>
                     )}
                   </div>
@@ -362,10 +356,12 @@ function DashboardHome() {
                       <p className="p-4 text-center text-gray-500">
                         Đang tải...
                       </p>
-                    ) : locationCharts &&
-                      locationCharts.some((c) => c.depthValues?.length > 0) ? (
+                    ) : topSalinityCharts &&
+                      topSalinityCharts.some(
+                        (c) => c.depthValues?.length > 0
+                      ) ? (
                       <div className="space-y-3">
-                        {locationCharts.map((c) =>
+                        {topSalinityCharts.map((c) =>
                           c.depthValues?.length > 0 ? (
                             <SideLineChart
                               key={`${c.location}-depth`}
@@ -442,26 +438,42 @@ function DashboardHome() {
                   </div>
                 </div>
                 <div className="flex-1 overflow-auto pr-2">
-                  <ul className='space-y-3'>
-                    <li className='flex gap-3 items-start'>
-                      <span className='mt-1 w-2 h-2 rounded-full bg-blue-500 shrink-0' />
+                  <ul className="space-y-3">
+                    <li className="flex items-start gap-3">
+                      <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-blue-500" />
                       <div>
-                        <div className='text-sm text-gray-800'>Nội dung thông báo hoặc chỉ đạo chỉ định sẽ được hiển thị ở đây một cách ngắn gọn và rõ ràng.</div>
-                        <div className='text-xs text-gray-400 mt-1'>01/11/2025 09:30</div>
+                        <div className="text-sm text-gray-800">
+                          Nội dung thông báo hoặc chỉ đạo chỉ định sẽ được hiển
+                          thị ở đây một cách ngắn gọn và rõ ràng.
+                        </div>
+                        <div className="mt-1 text-xs text-gray-400">
+                          01/11/2025 09:30
+                        </div>
                       </div>
                     </li>
-                    <li className='flex gap-3 items-start'>
-                      <span className='mt-1 w-2 h-2 rounded-full bg-amber-400 shrink-0' />
+                    <li className="flex items-start gap-3">
+                      <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-amber-400" />
                       <div>
-                        <div className='text-sm text-gray-800'>Khung này sẽ được mở rộng linh hoạt dựa trên nội dung được chèn vào, giúp người dùng dễ dàng nắm bắt thông tin quan trọng.</div>
-                        <div className='text-xs text-gray-400 mt-1'>31/10/2025 14:20</div>
+                        <div className="text-sm text-gray-800">
+                          Khung này sẽ được mở rộng linh hoạt dựa trên nội dung
+                          được chèn vào, giúp người dùng dễ dàng nắm bắt thông
+                          tin quan trọng.
+                        </div>
+                        <div className="mt-1 text-xs text-gray-400">
+                          31/10/2025 14:20
+                        </div>
                       </div>
                     </li>
-                    <li className='flex gap-3 items-start'>
-                      <span className='mt-1 w-2 h-2 rounded-full bg-green-400 shrink-0' />
+                    <li className="flex items-start gap-3">
+                      <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-green-400" />
                       <div>
-                        <div className='text-sm text-gray-800'>Vui lòng kiểm tra thường xuyên để cập nhật những thông báo mới nhất từ hệ thống.</div>
-                        <div className='text-xs text-gray-400 mt-1'>30/10/2025 08:10</div>
+                        <div className="text-sm text-gray-800">
+                          Vui lòng kiểm tra thường xuyên để cập nhật những thông
+                          báo mới nhất từ hệ thống.
+                        </div>
+                        <div className="mt-1 text-xs text-gray-400">
+                          30/10/2025 08:10
+                        </div>
                       </div>
                     </li>
                   </ul>
