@@ -4,33 +4,19 @@
   "zones": [
     {
       "zoneName": "Vùng Gò Công",
-      "regions": [
-        "Gò Công Ðông",
-        "Gò Công Tây",
-        "Tân Phú Ðông",
-        "Go Cong"
-      ]
+      "regions": ["Gò Công Ðông", "Gò Công Tây", "Tân Phú Ðông", "Go Cong"]
     },
     {
       "zoneName": "Vùng Trung tâm",
-      "regions": [
-        "Mỹ Tho",
-        "Châu Thành",
-        "Chợ Gạo"
-      ]
+      "regions": ["Mỹ Tho", "Châu Thành", "Chợ Gạo"]
     },
     {
       "zoneName": "Vùng Phía Tây",
-      "regions": [
-        "Cái Bè",
-        "Cai Lậy"
-      ]
+      "regions": ["Cái Bè", "Cai Lậy"]
     },
     {
       "zoneName": "Vùng Đồng Tháp Mười",
-      "regions": [
-        "Tân Phước"
-      ]
+      "regions": ["Tân Phước"]
     }
   ]
 }
