@@ -16,6 +16,6 @@ export const useGlobalLoadingStore = create<GlobalLoadingStore>()(
     }),
     {
       name: 'globalLoadingStore',
-    },
-  ),
+    }
+  )
 );
