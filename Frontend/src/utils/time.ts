@@ -5,7 +5,7 @@ dayjs.extend(duration);
 
 function haveSameDate(
   _date1: dayjs.ConfigType,
-  _date2: dayjs.ConfigType,
+  _date2: dayjs.ConfigType
 ): boolean {
   const date1 = dayjs(_date1);
   const date2 = dayjs(_date2);
@@ -27,7 +27,7 @@ function formatDuration(durationSeconds: number): string {
   const hours = dur.hours();
   const minutes = dur.minutes();
 
-  const parts = [];
+  const parts: string[] = [];
   if (hours) parts.push(`${hours} hour${hours > 1 ? 's' : ''}`);
   if (minutes) parts.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
 

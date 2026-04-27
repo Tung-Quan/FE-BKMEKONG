@@ -1,19 +1,13 @@
-import axios from 'axios';
-
-// === API CONFIGURATION ===
-const backendURL = import.meta.env.VITE_BACKEND_URL;
+import {
+  formatDateForApi,
+  getPositionDayData,
+  getPositions,
+} from '@/utils/backend-api';
 
 // Fetch positions from API
 export const fetchPositions = async () => {
   try {
-    const response = await axios.get(`${backendURL}/api/data/positions`);
-    if (!response || !response.data) return [];
-    if (Array.isArray(response.data)) return response.data;
-    if (Array.isArray(response.data.data)) return response.data.data;
-    for (const key of Object.keys(response.data)) {
-      if (Array.isArray(response.data[key])) return response.data[key];
-    }
-    return [];
+    return await getPositions();
   } catch (error) {
     console.error('Lỗi tải positions:', error);
     return [];
@@ -22,23 +16,16 @@ export const fetchPositions = async () => {
 
 // Helper to format date for API
 export const formatDateForAPI = (date: Date) => {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1; // 0-indexed
-  const day = date.getDate();
-  return `${year}-${month}-${day}`;
+  return formatDateForApi(date);
 };
 
 // Fetch data for position in date range (sẽ fetch toàn bộ ngày)
-export const fetchDataForPosition = async (positionId: string , targetDate: Date) => {
+export const fetchDataForPosition = async (
+  positionId: string | number,
+  targetDate: Date
+) => {
   try {
-    const dateStr = formatDateForAPI(targetDate);
-    const idStr = String(positionId);
-    const url = `${backendURL}/api/data/date-range/${dateStr}/00:00:00/23:59:59/${idStr}`;
-    const response = await axios.get(url);
-    if (response.data.success && response.data.data && Array.isArray(response.data.data)) {
-      return response.data.data;
-    }
-    return [];
+    return await getPositionDayData(positionId, targetDate);
   } catch (error) {
     console.error(`Lỗi tải dữ liệu cho position ${positionId}:`, error);
     return [];
@@ -50,11 +37,17 @@ export const fetchDataForPosition = async (positionId: string , targetDate: Date
 /**
  * Helper to extract salinity value from a record (updated for API data)
  */
-export const getSal = (rec: any) => {
+export const getSal = (rec: Record<string, unknown>) => {
   // API fields
-  if (rec.salinity !== undefined && rec.salinity !== null) return Number(rec.salinity);
+  if (rec.salinity !== undefined && rec.salinity !== null)
+    return Number(rec.salinity);
   // Legacy JSON fields
-  const keys = ['sal_song_gpl','sal_dong_gpl','sal_surface_gpl','sal_bottom_gpl'];
+  const keys = [
+    'sal_song_gpl',
+    'sal_dong_gpl',
+    'sal_surface_gpl',
+    'sal_bottom_gpl',
+  ];
   for (const k of keys) {
     if (rec[k] !== undefined && rec[k] !== null) return Number(rec[k]);
   }
@@ -64,11 +57,12 @@ export const getSal = (rec: any) => {
 /**
  * Helper to extract depth (surface) value (updated for API data)
  */
-export const getDepth = (rec: any) => {
+export const getDepth = (rec: Record<string, unknown>) => {
   // API fields
-  if (rec.water_level !== undefined && rec.water_level !== null) return Number(rec.water_level);
+  if (rec.water_level !== undefined && rec.water_level !== null)
+    return Number(rec.water_level);
   // Legacy JSON fields
-  const keys = ['m_song_m','m_dong_m','depth_surface_m','depth_bottom_m'];
+  const keys = ['m_song_m', 'm_dong_m', 'depth_surface_m', 'depth_bottom_m'];
   for (const k of keys) {
     if (rec[k] !== undefined && rec[k] !== null) return Number(rec[k]);
   }
@@ -78,31 +72,31 @@ export const getDepth = (rec: any) => {
 /**
  * Helper to parse timestamp from data (API or JSON format)
  */
-export const parseTimestamp = (record: any) => {
+export const parseTimestamp = (record: Record<string, unknown>) => {
   // API format: datetime field (ISO string)
-  if (record.datetime) {
+  if (typeof record.datetime === 'string' && record.datetime) {
     try {
       return new Date(record.datetime).getTime();
     } catch {
       // Fall through to legacy format
     }
   }
-  
+
   // Legacy JSON format: date + time fields
-  const datePart = record.date;
-  const timePart = record.time;
+  const datePart = typeof record.date === 'string' ? record.date : '';
+  const timePart = typeof record.time === 'string' ? record.time : '00:00';
   let ts: Date | null = null;
   try {
     // Thử chuẩn ISO
     if (/^\d{4}-\d{2}-\d{2}$/.test(datePart)) {
-      ts = new Date(datePart + 'T' + (timePart || '00:00') + ':00');
+      ts = new Date(datePart + 'T' + timePart + ':00');
     } else {
       // Thử fallback dd/mm
-      const d = (datePart || '').split('/').map((s: string) => s.trim());
+      const d = datePart.split('/').map((s: string) => s.trim());
       if (d.length >= 2) {
-        const day = d[0].padStart(2,'0');
-        const month = d[1].padStart(2,'0');
-        const iso = `2020-${month}-${day}T${(timePart || '00:00')}:00`;
+        const day = d[0].padStart(2, '0');
+        const month = d[1].padStart(2, '0');
+        const iso = `2020-${month}-${day}T${timePart || '00:00'}:00`;
         ts = new Date(iso);
       } else {
         ts = new Date(); // Fallback
