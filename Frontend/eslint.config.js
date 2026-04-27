@@ -1,10 +1,10 @@
 import js from '@eslint/js';
+import pluginQuery from '@tanstack/eslint-plugin-query';
 import prettierConfig from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tailwindcss from 'eslint-plugin-tailwindcss';
-import pluginQuery from '@tanstack/eslint-plugin-query'; 
 import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
@@ -14,7 +14,7 @@ export default defineConfig([
 
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  ...pluginQuery.configs['flat/recommended'], 
+  ...pluginQuery.configs['flat/recommended'],
 
   {
     files: ['**/*.{ts,tsx}'],
@@ -39,6 +39,9 @@ export default defineConfig([
         'warn',
         { allowConstantExport: true },
       ],
+
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off',
 
       'prettier/prettier': 'warn',
 
